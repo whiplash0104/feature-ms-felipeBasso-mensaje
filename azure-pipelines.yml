@@ -80,6 +80,6 @@ jobs:
       command: 'push'
       tags: 'latest'
       
-  - script: "apt-get install -y minikube && minikube start"  
+  - script: "sudo apt-get install -y minikube && sudo minikube start"  
     displayName:  Instala y levanta minikube
  
