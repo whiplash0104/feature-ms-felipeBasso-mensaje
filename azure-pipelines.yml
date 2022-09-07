@@ -38,3 +38,52 @@ jobs:
       artifactName: appJar
       publishLocation: 'Container'
 
+
+
+
+- job: buildimage
+  displayName:  Build Image
+  dependsOn: build
+  steps:
+  - task: DownloadBuildArtifacts@0
+    inputs:
+      buildType: 'current'
+      downloadType: 'single'
+      artifactName: 'appJar'
+      downloadPath: '$(Pipeline.Workspace)'
+    displayName: 'Build'
+
+  - script: "mkdir -p build/libs; mv $(Pipeline.Workspace)/appJar/build/libs/ build/; chmod -R 555 build/libs"  
+    displayName:  Se mueve JAR a carpeta raiz
+  
+  - task: Docker@2
+    inputs:
+      containerRegistry: 'Docker-registry'
+      command: 'login'
+  - task: Docker@2
+    inputs:
+      repository: 'felipebasso/feature-ms-felipebasso-mensaje'
+      command: 'buildAndPush'
+      Dockerfile: '**/Dockerfile'
+           
+- job: Deploy
+  dependsOn: buildimage
+  steps:
+  - task: Kubernetes@1
+    inputs:
+      connectionType: 'Azure Resource Manager'
+      azureSubscriptionEndpoint: 'azure(9909fced-8203-44b6-af68-11f833a37e60)'
+      azureResourceGroup: 'aks-getting-started'
+      kubernetesCluster: 'aks-getting-started'
+      command: 'login'
+    displayName:  Autenticacion cluster kubernetes
+
+  - task: KubernetesManifest@0
+    inputs:
+      action: 'createSecret'
+      kubernetesServiceConnection: 'Azure-k8s'
+      namespace: 'default'
+      secretType: 'dockerRegistry'
+      secretName: 'az-k8s-secret'
+      dockerRegistryEndpoint: 'Docker-registry'
+    displayName:  Integracion k8s y docker registry
