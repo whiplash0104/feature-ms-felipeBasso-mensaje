@@ -11,7 +11,7 @@ pool:
   vmImage: ubuntu-latest
   
 jobs:
-- job: Build de Aplicacion
+- job: Build
   displayName: 'Build'
   steps:
   - task: Gradle@3
@@ -41,7 +41,7 @@ jobs:
 
 
 
-- job: Build de Imagen
+- job: Imagen
   displayName:  Build Image
   dependsOn: build
   steps:
