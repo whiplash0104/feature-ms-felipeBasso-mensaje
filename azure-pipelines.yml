@@ -5,15 +5,50 @@
 
 trigger:
 - main
+- feature-azure-pipelines
 
 pool:
   vmImage: ubuntu-latest
+  
+jobs:
+- job: build
+  displayName: 'Build'
+  steps:
+  - task: Gradle@3
+    inputs:
+      gradleWrapperFile: 'gradlew'
+      tasks: 'build'
+      publishJUnitResults: true
+      testResultsFiles: '**/TEST-*.xml'
+      javaHomeOption: 'JDKVersion'
+      sonarQubeRunAnalysis: false
+      spotBugsAnalysis: false
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+  - task: CopyFiles@2
+    inputs:
+      sourceFolder: '$(Build.SourcesDirectory)'
+      contents: |
+        **/build/libs/*.jar
+        **/build/**/*.xml
+      targetFolder: '$(Build.ArtifactStagingDirectory)'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathToPublish: '$(Build.ArtifactStagingDirectory)'
+      artifactName: appJar
+      publishLocation: 'Container'
+
+- job: sonar
+  workspace:
+    clean: all
+  displayName:  Code Review
+  steps:
+  - task: SonarCloudPrepare@1
+    inputs:
+      SonarCloud: 'Sonarcloud'
+      organization: 'Devops-Foundation-fbasso'
+      projectKey: 'devops-foundation-fbasso'
+      projectName: 'feature-ms-felipeBasso-mensaje'
+      extraProperties: |
+        sonar.coverage.jacoco.xmlReportPaths=$(Pipeline.Workspace)/appJar/build/reports/jacoco/test/jacocoTestReport.xml
+    displayName: 'Preparing Sonarqube Environment'
