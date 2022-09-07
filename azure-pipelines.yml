@@ -11,7 +11,7 @@ pool:
   vmImage: ubuntu-latest
   
 jobs:
-- job: build
+- job: Build de Aplicacion
   displayName: 'Build'
   steps:
   - task: Gradle@3
@@ -41,7 +41,7 @@ jobs:
 
 
 
-- job: buildimage
+- job: Build de Imagen
   displayName:  Build Image
   dependsOn: build
   steps:
@@ -79,7 +79,9 @@ jobs:
       repository: 'felipebasso/feature-ms-felipebasso-mensaje'
       command: 'push'
       tags: 'latest'
-      
-  - script: "curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb && sudo dpkg -i minikube_latest_amd64.deb && sudo minikube start"  
+
+
+- job: Infraestructura
+  - script: "curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb && sudo dpkg -i minikube_latest_amd64.deb && minikube start"  
     displayName:  Instala y levanta minikube
  
