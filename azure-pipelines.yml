@@ -59,7 +59,7 @@ jobs:
   
   - task: Docker@2
     inputs:
-      containerRegistry: 'Docker'
+      containerRegistry: 'Docker-registry'
       command: 'login'
     displayName: Docker registry login
   
