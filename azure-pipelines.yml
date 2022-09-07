@@ -81,7 +81,16 @@ jobs:
       tags: 'latest'
 
 
-
+- job: infraestructure
+  displayName:  Build Infrastructure
   - script: "curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb && sudo dpkg -i minikube_latest_amd64.deb && minikube start"  
     displayName:  Instala y levanta minikube
- 
+  
+  - script: "kubectl create namespace ms-fbasso"
+    displayName: Crea namespace
+    
+  - script: "kubectl create deployment --image=felipebasso/feature-ms-felipebasso-mensaje:latest deployment-ms-fbasso -n ms-fbasso"
+    displayName: Crea deploy
+    
+  - script: "kubectl get pods -n ms-fbasso"
+    displayName: Valida pods
