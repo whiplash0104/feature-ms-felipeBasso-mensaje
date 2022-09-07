@@ -69,7 +69,7 @@ jobs:
       repository: 'felipebasso/feature-ms-felipebasso-mensaje'
       command: 'build'
       Dockerfile: '**/Dockerfile'
-      tags: lates
+      tags: 'latest'
 
 
   - task: Docker@2
