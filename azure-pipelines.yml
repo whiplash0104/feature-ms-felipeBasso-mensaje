@@ -11,7 +11,7 @@ pool:
   vmImage: ubuntu-latest
   
 jobs:
-- job: Build
+- job: build
   displayName: 'Build'
   steps:
   - task: Gradle@3
@@ -41,7 +41,7 @@ jobs:
 
 
 
-- job: Imagen
+- job: buildimage
   displayName:  Build Image
   dependsOn: build
   steps:
@@ -81,7 +81,7 @@ jobs:
       tags: 'latest'
 
 
-- job: Infraestructura
+
   - script: "curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb && sudo dpkg -i minikube_latest_amd64.deb && minikube start"  
     displayName:  Instala y levanta minikube
  
