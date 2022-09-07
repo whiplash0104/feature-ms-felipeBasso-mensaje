@@ -79,3 +79,19 @@ jobs:
       repository: 'felipebasso/feature-ms-felipebasso-mensaje'
       command: 'push'
       tags: 'latest'
+      
+  - task: KubectlInstaller@0
+    inputs:
+      kubectlVersion: 'latest'
+    displayName: Instalacion Kubectl
+  
+  - task: Kubernetes@1
+    inputs:
+      connectionType: 'Azure Resource Manager'
+      azureSubscriptionEndpoint: 'azure(dd95a35c-a9ab-47f0-9360-187a7155cd3f)'
+      azureResourceGroup: 'aks-getting-started'
+      kubernetesCluster: 'aks-getting-started'
+      namespace: 'default'
+      command: 'login'
+    displayName: AKS Login
+ 
