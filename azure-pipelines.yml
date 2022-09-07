@@ -66,12 +66,4 @@ jobs:
       command: build
       Dockerfile: Dockerfile
 
-  - task: Docker@2
-    displayName: Docker push
-    inputs:
-      containerRegistry: 'Docker'
-      repository: 'felipebasso/feature-ms-felipebasso-mensaje'
-      command: 'push'
-      tags: 'latest'
 
-hol?
