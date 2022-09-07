@@ -57,7 +57,11 @@ jobs:
     displayName:  Se mueve JAR a carpeta raiz
   
   
-  
+  - task: Docker@2
+    inputs:
+      containerRegistry: 'Docker'
+      command: 'login'
+    displayName: Docker registry login
   
   - task: Docker@2
     displayName: Build an image
