@@ -56,3 +56,12 @@ jobs:
   - script: "mkdir -p build/libs; mv $(Pipeline.Workspace)/appJar/build/libs/ build/; chmod -R 555 build/libs"  
     displayName:  Se mueve JAR a carpeta raiz
   
+  
+  
+  
+  - task: Docker@2
+    displayName: Build an image
+    inputs:
+      repository: felipebasso/feature-ms-felipebasso-mensaje
+      command: build
+      Dockerfile: Dockerfile
