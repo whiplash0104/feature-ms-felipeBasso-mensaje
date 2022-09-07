@@ -81,8 +81,8 @@ jobs:
       tags: 'latest'
 
 
-- job: Deploy
-  displayName:  Build Infrastructure
+
+
   - script: "curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb && sudo dpkg -i minikube_latest_amd64.deb && minikube start"  
     displayName:  Instala y levanta minikube
   
