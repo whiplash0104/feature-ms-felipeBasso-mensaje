@@ -23,6 +23,7 @@ jobs:
       javaHomeOption: 'JDKVersion'
       sonarQubeRunAnalysis: false
       spotBugsAnalysis: false
+    displayName: 'Build Plugin'
 
   - task: CopyFiles@2
     inputs:
