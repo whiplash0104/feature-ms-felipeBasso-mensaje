@@ -38,7 +38,13 @@ jobs:
       artifactName: appJar
       publishLocation: 'Container'
 
-
+  - task: DownloadBuildArtifacts@0
+    inputs:
+      buildType: 'current'
+      downloadType: 'single'
+      artifactName: 'appJar'
+      downloadPath: '$(Pipeline.Workspace)'
+    displayName: Descarga Jar
 
 
 - job: buildimage
@@ -92,7 +98,7 @@ jobs:
   - script: "kubectl create deployment --image=felipebasso/feature-ms-felipebasso-mensaje:latest deployment-ms-fbasso -n ms-fbasso"
     displayName: Crea deploy
     
-  - script: "kubectl scale deployment deployment-ms-fbasso --replicas=1 -n ms-fbasso && sleep 10"
+  - script: "kubectl scale deployment deployment-ms-fbasso --replicas=1 -n ms-fbasso && sleep 30"
     displayName: Escala deployment
     
   - script: "kubectl get pods -n ms-fbasso"
