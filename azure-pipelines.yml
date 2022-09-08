@@ -103,3 +103,9 @@ jobs:
     
   - script: "kubectl get pods -n ms-fbasso"
     displayName: Valida pods
+    
+  - script: "kubectl expose deployment deployment-ms-fbasso -n ms-fbasso --type=NodePort"
+    displayName: Expone service
+    
+  - script: "URL=$(minikube service deployment-ms-fbasso -n ms-fbasso --url) && echo $URL"
+    displayName: 
