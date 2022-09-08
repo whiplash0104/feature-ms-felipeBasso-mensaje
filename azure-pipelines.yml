@@ -92,7 +92,8 @@ jobs:
   - script: "kubectl create deployment --image=felipebasso/feature-ms-felipebasso-mensaje:latest deployment-ms-fbasso -n ms-fbasso"
     displayName: Crea deploy
     
-  - script: "kubectl scale deployment deployment-ms-fbasso --replicas=1 -n ms-fbasso"
+  - script: "kubectl scale deployment deployment-ms-fbasso --replicas=1 -n ms-fbasso && sleep 10"
+    displayName: Escala deployment
     
   - script: "kubectl get pods -n ms-fbasso"
     displayName: Valida pods
